@@ -13,13 +13,13 @@
 
 - Node.js
 
-- Express / NestJS
+- Express
 
-- Banco de Dados (SQLite, MongoDB, PostgreSQL, etc.)
+- Banco de Dados SQLite
 
-- Prisma / Mongoose (se aplicável)
+- Prisma
 
-- Node + Nodemon / Typescript (opcional)
+- Node + Nodemon
 
 ### Frontend
 
@@ -88,21 +88,25 @@
 ## Estrutura do Projeto
 
 ```
-/projeto-full-stack
-├── /backend-api (Node.js/TypeScript/Express)
+/TESTE-TECNICO-ESTAGIARIO-DEV-FULL-STACK--MOBILE-WEB-
+├── /backend
 │   ├── src/
 │   │   ├── controllers/
 │   │   ├── models/
 │   │   ├── routes/
 │   │   └── server.ts
+│   ├── prisma/schema.prisma
 │   ├── package.json
 │   └── tsconfig.json
 │
-└── /frontend-app (React/TypeScript)
+└── /frontend
     ├── src/
     │   ├── components/
-    │   └── App.tsx
+    │   └── app/
+    │       └── page.tsx
+    ├── next.config.js
     └── package.json
+
 ```
 
 ------------------------------------------------------------

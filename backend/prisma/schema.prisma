@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Agendamento {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  servico   String
+  data      String
+  hora      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
