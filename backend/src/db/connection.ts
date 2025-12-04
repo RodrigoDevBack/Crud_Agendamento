@@ -8,4 +8,4 @@ const adapter = new PrismaBetterSqlite3({ url: conectString });
 
 const prisma = new PrismaClient({ adapter });
 
-export { prisma }
+export { prisma };

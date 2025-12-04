@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/agendamentos', router)
+app.use("/agendamentos", router);
 
 const PORT = 3001;
 

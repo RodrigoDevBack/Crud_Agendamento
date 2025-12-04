@@ -1,11 +1,9 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
@@ -13,41 +11,39 @@ import EditTask from "../components/edit-task";
 import DeleteAlert from "../components/delete-alert";
 
 import {
-  Plus,
   List,
   CircleAlert,
   CircleCheckBig,
-  Trash,
   ClipboardCheck,
   Sigma,
 } from "lucide-react";
 import { getAgdm } from "@/actions/get_agdm";
 import { useEffect, useState } from "react";
+import { GetAgdm } from "@/actions/interfaces/get_agdm";
+import DeleteButton from "../components/delete-button";
+import CreateAgdmDialog from "@/components/create-form-dialog";
 
 function Home() {
-  const [taskList, setTaskList] = useState<[]>([]);
-
-  const agdms = async () => {
-    const agdm = await getAgdm();
-
-    if (!agdm) return;
-
-    return setTaskList(agdm);
-  };
+  const [taskList, setTaskList] = useState<GetAgdm[]>([]);
 
   useEffect(() => {
+    const agdms = async () => {
+      const agdm = await getAgdm();
+
+      if (!agdm) return;
+
+      return setTaskList(agdm);
+    };
+
     agdms();
   }, []);
 
   return (
     <div className="w-full h-screen bg-gray-100 flex justify-center items-center">
-      <Card className="w-xl">
-        <CardHeader className="flex gap-2">
-          <Input placeholder="Adicionar Tarefa" />
-          <Button className="cursor-pointer">
-            <Plus />
-            Cadastrar
-          </Button>
+      <Card className="w-3xl">
+        <CardHeader className="flex gap-2 justify-between items-center">
+          <CardTitle className="md:text-2xl ">Agendamentos</CardTitle>
+          <CreateAgdmDialog />
         </CardHeader>
         <CardContent>
           <Separator className="mb-4" />
@@ -64,10 +60,10 @@ function Home() {
             </Badge>
           </div>
 
-          <div className="mt-4 border-b-1">
+          <div className="mt-4 border-b-2">
             {taskList.map((task) => (
               <div
-                className="h-14 flex justify-between items-center border-t-1"
+                className="h-14 flex justify-between items-center border-t-2"
                 key={task.id}
               >
                 <div className="w-1 h-full bg-green-300"></div>
@@ -82,7 +78,7 @@ function Home() {
 
                 <div className="flex items-center gap-2">
                   <EditTask />
-                  <Trash size={18} className="cursor-pointer" />
+                  <DeleteButton id={task.id} />
                 </div>
               </div>
             ))}
@@ -110,8 +106,6 @@ function Home() {
             <p className="text-xs">3 Tarefas no total</p>
           </div>
         </CardContent>
-
-        <CardFooter></CardFooter>
       </Card>
     </div>
   );

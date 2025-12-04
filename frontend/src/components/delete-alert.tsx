@@ -1,3 +1,5 @@
+"use client";
+
 import { Trash } from "lucide-react";
 import {
   AlertDialog,
@@ -10,8 +12,23 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
 import { Button } from "./ui/button";
+import { getAgdm } from "@/actions/get_agdm";
+import { useEffect, useState } from "react";
 
 const DeleteAlert = () => {
+  const [ totalAgdm, setTotalAgdm ] = useState<number>();
+
+  useEffect(() => {
+    const totalagdms = async () => {
+      const request = await getAgdm();
+
+      if (!request) return;
+
+      return setTotalAgdm(request.length);
+    };
+    totalagdms();
+  }, []);
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -22,7 +39,7 @@ const DeleteAlert = () => {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Tem certeza que deseja excluir x itens?
+            Tem certeza que deseja excluir {totalAgdm} itens?
           </AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -36,4 +53,4 @@ const DeleteAlert = () => {
   );
 };
 
-export default DeleteAlert
+export default DeleteAlert;

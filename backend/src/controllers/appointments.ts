@@ -6,14 +6,14 @@ import {
   deleteRepoAppoin,
 } from "../repository/appointments.ts";
 
-interface createAppointments {
+interface CreateAppointments {
   nome: string;
   servico: string;
   data: string;
   hora: string;
 }
 
-interface updateAppointments {
+interface UpdateAppointments {
   id: number;
   nome?: string;
   servico?: string;
@@ -21,12 +21,12 @@ interface updateAppointments {
   hora?: string;
 }
 
-interface deleteAppointments {
+interface DeleteAppointments {
   id: number;
 }
 
 export async function createAppoin(
-  req: Request<{}, any, createAppointments>,
+  req: Request<{}, any, CreateAppointments>,
   res: Response
 ) {
   try {
@@ -36,7 +36,7 @@ export async function createAppoin(
     }
     return res.status(201).json(req.body);
   } catch (error) {
-    return res.status(400).json("Falha na requisição.");
+    return res.status(400).json("Falha na requisição. Erro: " + error);
   }
 }
 
@@ -53,7 +53,7 @@ export async function getAppoin(req: Request, res: Response) {
 }
 
 export async function updateAppoin(
-  req: Request<{}, any, updateAppointments>,
+  req: Request<{}, any, UpdateAppointments>,
   res: Response
 ) {
   try {
@@ -64,7 +64,7 @@ export async function updateAppoin(
 }
 
 export async function deleteAppoin(
-  req: Request<{}, any, deleteAppointments>,
+  req: Request<{}, any, DeleteAppointments>,
   res: Response
 ) {
   try {

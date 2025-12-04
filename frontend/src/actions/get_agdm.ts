@@ -1,5 +1,11 @@
-"use server"
+"use server";
+
 export async function getAgdm() {
-  const agdms = await fetch("http://localhost:3001/agendamentos/");
-  return await agdms.json();
+  const request = await fetch("http://localhost:3001/agendamentos/", {
+    method: "GET",
+  });
+
+  const response = await request.json();
+
+  return response;
 }

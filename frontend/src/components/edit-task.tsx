@@ -1,3 +1,5 @@
+"use client";
+
 import { SquarePen } from "lucide-react";
 import { Button } from "./ui/button";
 import {
