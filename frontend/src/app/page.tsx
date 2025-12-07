@@ -1,10 +1,5 @@
 "use client";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import EditTask from "../components/edit-task";
@@ -25,6 +20,12 @@ import CreateAgdmDialog from "@/components/create-form-dialog";
 
 function Home() {
   const [taskList, setTaskList] = useState<GetAgdm[]>([]);
+  const [control, setControl] = useState<number>(0);
+
+  const setSessionControl = (value: number) => {
+    sessionStorage.setItem("control", value.toString());
+    setControl(value);
+  };
 
   useEffect(() => {
     const agdms = async () => {
@@ -36,6 +37,11 @@ function Home() {
     };
 
     agdms();
+    const setContro = () => {
+      const contro = sessionStorage.getItem("control") || "1";
+      setControl(parseInt(contro));
+    };
+    setContro();
   }, []);
 
   return (
@@ -49,14 +55,26 @@ function Home() {
           <Separator className="mb-4" />
 
           <div className="flex gap-2 items-center">
-            <Badge variant="default" className="cursor-pointer">
-              <List /> Todas
+            <Badge
+              variant={control === 0 ? "default" : "outline"}
+              className={ control !== 0 ? "cursor-pointer hover:bg-gray-200" : "cursor-pointer"}
+              onClick={() => setSessionControl(0)}
+            >
+              <List /> Todos
             </Badge>
-            <Badge variant="outline" className="cursor-pointer">
-              <CircleAlert /> Não finalizadas
+            <Badge
+              variant={control === 1 ? "default" : "outline"}
+              className={ control !== 1 ? "cursor-pointer hover:bg-gray-200" : "cursor-pointer"}
+              onClick={() => setSessionControl(1)}
+            >
+              <CircleAlert /> Não finalizados
             </Badge>
-            <Badge variant="outline" className="cursor-pointer">
-              <CircleCheckBig /> Concluídas
+            <Badge
+              variant={control === 2 ? "default" : "outline"}
+              className={ control !== 2 ? "cursor-pointer hover:bg-gray-200" : "cursor-pointer"}
+              onClick={() => setSessionControl(2)}
+            >
+              <CircleCheckBig /> Concluídos
             </Badge>
           </div>
 
@@ -66,14 +84,19 @@ function Home() {
                 className="h-14 flex justify-between items-center border-t-2"
                 key={task.id}
               >
-                <div className="w-1 h-full bg-green-300"></div>
-                <p className="flex-1 px-2 text-sm">{task.nome}</p>
-                <p className="flex-2 px-2 text-sm">{task.servico}</p>
+                <div className={"w-1 h-full bg-green-300"}></div>
 
-                <div className="flex justify-between">
-                  <p className="px-2 text-sm">
-                    {task.data} {task.hora}
-                  </p>
+                <div className="flex-1 justify-between cursor-pointer hover:bg-gray-200 h-full">
+                  <div className="flex justify-between h-full items-center">
+                    <p className=" px-2 text-sm">{task.nome}</p>
+
+                    <p className=" px-2 text-sm">{task.servico}</p>
+                    <div className="flex justify-between">
+                      <p className="px-3 text-sm">
+                        {task.data} {task.hora}
+                      </p>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -87,7 +110,7 @@ function Home() {
           <div className="flex justify-between mt-7">
             <div className="flex gap-2 items-center">
               <ClipboardCheck size={18} />
-              <p className="text-xs"> Tarefas Concluídas (3/3)</p>
+              <p className="text-xs"> Agendamentos concluídos (3/3)</p>
             </div>
 
             <div>
@@ -103,7 +126,7 @@ function Home() {
 
           <div className="flex justify-end items-center mt-2 gap-2">
             <Sigma size={18} />
-            <p className="text-xs">3 Tarefas no total</p>
+            <p className="text-xs">{taskList.length} Agendamentos ao todo</p>
           </div>
         </CardContent>
       </Card>

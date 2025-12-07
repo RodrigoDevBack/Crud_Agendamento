@@ -2,6 +2,7 @@
 
 import { Trash } from "lucide-react";
 import { deleteAgdm } from "@/actions/delete_agdm";
+import { toast } from "sonner";
 
 type Inpute = {
   id: number;
@@ -16,6 +17,8 @@ const DeleteButton = ({ id }: Inpute) => {
       className="cursor-pointer"
       onClick={async () => {
         await del(id);
+        toast.warning('Agendamento deletado com sucesso.')
+        await new Promise(resolve => setTimeout(resolve, 1500))
         globalThis.location.reload();
       }}
     />

@@ -11,9 +11,11 @@ import {
 } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { createAgdm } from "@/actions/create_agdm";
 import { CreateAgdm } from "../actions/interfaces/create_agdm";
+
+import { toast } from "sonner";
 
 const CreateAgdmDialog = () => {
   const [hora, setHora] = useState("");
@@ -22,7 +24,8 @@ const CreateAgdmDialog = () => {
   const [servico, setServico] = useState("");
   const [data, setData] = useState("");
 
-  const createAg = async () => {
+  const createAg = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const datesd: CreateAgdm = {
       nome: nome,
       servico: servico,
@@ -30,7 +33,14 @@ const CreateAgdmDialog = () => {
       hora: hora + ":" + minuto,
     };
     const request = await createAgdm(datesd);
-
+    toast.success('Agendamento criado com sucesso!')
+    setData('')
+    setNome('')
+    setHora('')
+    setMinuto('')
+    setServico('')
+    await new Promise(resolve => setTimeout(resolve, 1500))
+    globalThis.location.reload();
     return request;
   };
 
@@ -67,7 +77,7 @@ const CreateAgdmDialog = () => {
           <DialogTitle>Criar Agendamento</DialogTitle>
         </DialogHeader>
 
-        <form onSubmit={createAg}>
+        <form onSubmit={(e) => createAg(e)}>
           <Label htmlFor="nome" className="text-lg">
             Nome:
           </Label>{" "}

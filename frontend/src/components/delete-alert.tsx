@@ -33,7 +33,7 @@ const DeleteAlert = () => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button className="text-xs h-7 cursor-pointer" variant="outline">
-          <Trash /> Limpar tarefas concluídas
+          <Trash /> Limpar todos os Agendamentos
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -43,7 +43,7 @@ const DeleteAlert = () => {
           </AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction className="cursor-pointer">Sim</AlertDialogAction>
+          <AlertDialogAction className="cursor-pointer" >Sim</AlertDialogAction>
           <AlertDialogCancel className="cursor-pointer">
             Cancelar
           </AlertDialogCancel>
