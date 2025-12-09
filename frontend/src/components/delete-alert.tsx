@@ -12,22 +12,12 @@ import {
   AlertDialogTrigger,
 } from "./ui/alert-dialog";
 import { Button } from "./ui/button";
-import { getAgdm } from "@/actions/get_agdm";
-import { useEffect, useState } from "react";
 
-const DeleteAlert = () => {
-  const [ totalAgdm, setTotalAgdm ] = useState<number>();
+type Inpute = {
+  totalAgdm: number
+}
 
-  useEffect(() => {
-    const totalagdms = async () => {
-      const request = await getAgdm();
-
-      if (!request) return;
-
-      return setTotalAgdm(request.length);
-    };
-    totalagdms();
-  }, []);
+const DeleteAlert = ({totalAgdm}:Inpute) => {
 
   return (
     <AlertDialog>

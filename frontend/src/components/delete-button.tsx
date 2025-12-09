@@ -5,12 +5,13 @@ import { deleteAgdm } from "@/actions/delete_agdm";
 import { toast } from "sonner";
 
 type Inpute = {
-  id: number;
+  id: string;
+  func: () => Promise<void>
 };
 
-const del = async (id: number) => await deleteAgdm(id);
+const del = async (id: string) => await deleteAgdm(id);
 
-const DeleteButton = ({ id }: Inpute) => {
+const DeleteButton = ({ id, func }: Inpute) => {
   return (
     <Trash
       size={18}
@@ -18,8 +19,7 @@ const DeleteButton = ({ id }: Inpute) => {
       onClick={async () => {
         await del(id);
         toast.warning('Agendamento deletado com sucesso.')
-        await new Promise(resolve => setTimeout(resolve, 1500))
-        globalThis.location.reload();
+        func()
       }}
     />
   );

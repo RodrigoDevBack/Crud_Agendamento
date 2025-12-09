@@ -8,15 +8,19 @@ interface CreateAppointments {
 }
 
 interface UpdateAppointments {
-  id: number;
+  id: string;
   nome?: string;
   servico?: string;
   data?: string;
   hora?: string;
 }
 
+interface UpdateStatusInterface {
+  id: string;
+}
+
 interface DeleteAppointments {
-  id: number;
+  id: string;
 }
 
 export async function createRepoAppoin(data: CreateAppointments) {
@@ -44,9 +48,60 @@ export async function getRepoAppoin() {
   }
 }
 
-// Futura implementação
-export async function updateRepoAppoin(data: UpdateAppointments) {
-  return true;
+export async function getRepoConcludedAppoin() {
+  try {
+    const concludedAppoin = await prisma.agendamento.findMany({
+      where: {
+        stats: true,
+      },
+    });
+    if (!concludedAppoin) return false;
+    return concludedAppoin;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getRepoNotConcludedAppoin() {
+  try {
+    const concludedAppoin = await prisma.agendamento.findMany({
+      where: {
+        stats: false,
+      },
+    });
+
+    if (!concludedAppoin) return false;
+
+    return concludedAppoin;
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function updateStatusRepo(id: string) {
+  try {
+    const exists = await prisma.agendamento.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!exists) return;
+
+    const newStats = !exists.stats;
+
+    const update = await prisma.agendamento.update({
+      where: {
+        id,
+      },
+      data: {
+        stats: newStats,
+      },
+    });
+    return true;
+  } catch (error) {
+    return error;
+  }
 }
 
 export async function deleteRepoAppoin(data: DeleteAppointments) {

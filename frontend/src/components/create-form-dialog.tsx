@@ -17,7 +17,11 @@ import { CreateAgdm } from "../actions/interfaces/create_agdm";
 
 import { toast } from "sonner";
 
-const CreateAgdmDialog = () => {
+type Input = {
+  func: () => Promise<void>
+}
+
+const CreateAgdmDialog = ({ func }: Input) => {
   const [hora, setHora] = useState("");
   const [minuto, setMinuto] = useState("");
   const [nome, setNome] = useState("");
@@ -39,9 +43,8 @@ const CreateAgdmDialog = () => {
     setHora('')
     setMinuto('')
     setServico('')
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    globalThis.location.reload();
-    return request;
+    func()
+    return request
   };
 
   // Permite apenas números

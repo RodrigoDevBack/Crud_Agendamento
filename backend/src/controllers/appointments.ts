@@ -4,6 +4,9 @@ import {
   createRepoAppoin,
   getRepoAppoin,
   deleteRepoAppoin,
+  updateStatusRepo,
+  getRepoConcludedAppoin,
+  getRepoNotConcludedAppoin,
 } from "../repository/appointments.ts";
 
 interface CreateAppointments {
@@ -14,15 +17,19 @@ interface CreateAppointments {
 }
 
 interface UpdateAppointments {
-  id: number;
+  id: string;
   nome?: string;
   servico?: string;
   data?: string;
   hora?: string;
 }
 
+interface UpdateStatusInterface {
+  id: string;
+}
+
 interface DeleteAppointments {
-  id: number;
+  id: string;
 }
 
 export async function createAppoin(
@@ -44,7 +51,7 @@ export async function getAppoin(req: Request, res: Response) {
   try {
     const response = await getRepoAppoin();
     if (!response) {
-      return res.status(404).json("falha ao tentar criar agendamento.");
+      return res.status(404).json("Sem agendamentos");
     }
     return res.status(200).json(response);
   } catch (error) {
@@ -52,12 +59,37 @@ export async function getAppoin(req: Request, res: Response) {
   }
 }
 
-export async function updateAppoin(
-  req: Request<{}, any, UpdateAppointments>,
+export async function getConcludedAppoin(req: Request, res: Response) {
+  try {
+    const response = await getRepoConcludedAppoin();
+    if (!response) {
+      return res.status(404).json("Sem agendamentos");
+    }
+    return res.status(200).json(response);
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function getNotConcludedAppoin(req: Request, res: Response) {
+  try {
+    const response = await getRepoNotConcludedAppoin();
+    if (!response) {
+      return res.status(404).json("Sem agendamentos");
+    }
+    return res.status(200).json(response);
+  } catch (error) {
+    return error;
+  }
+}
+
+export async function updateStatus(
+  req: Request<{}, any, UpdateStatusInterface>,
   res: Response
 ) {
   try {
-    return res.status(200).json("In development");
+    const response = await updateStatusRepo(req.body.id);
+    return res.status(200).json(`Atualizado: ${response}`);
   } catch (error) {
     return res.status(400).json("Falha misteriosa. Erro: " + error);
   }
