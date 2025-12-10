@@ -1,26 +1,21 @@
 import { Router } from "express";
 
-import {
-  getAppoin,
-  createAppoin,
-  deleteAppoin,
-  updateStatus,
-  getNotConcludedAppoin,
-  getConcludedAppoin,
-} from "../controllers/appointments.ts";
+import { AppointmentRoutes } from "../controllers/appointments.ts";
 
 const router = Router();
 
-router.get("/", getAppoin);
+router.get("/", AppointmentRoutes.get);
 
-router.get("/not_concluded", getNotConcludedAppoin);
+router.get("/not_concluded", AppointmentRoutes.getNotConcluded);
 
-router.get("/concluded", getConcludedAppoin);
+router.get("/concluded", AppointmentRoutes.getConcluded);
 
-router.post("/", createAppoin);
+router.post("/", AppointmentRoutes.create);
 
-router.put("/status", updateStatus);
+router.put("/", AppointmentRoutes.update);
 
-router.delete("/", deleteAppoin);
+router.put("/status", AppointmentRoutes.updateStatus);
+
+router.delete("/", AppointmentRoutes.delete);
 
 export default router;
