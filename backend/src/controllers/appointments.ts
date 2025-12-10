@@ -93,7 +93,7 @@ export class AppointmentRoutes {
       if (!response) {
         return res.status(404).json("Falha ao tentar atualizar agendamento");
       }
-      return res.status(204);
+      return res.status(204).json('pass');
     } catch (error) {
       throw res.status(400).json("Falha na requisição. Erro: " + error);
     }
@@ -114,7 +114,7 @@ export class AppointmentRoutes {
       if (!response) {
         return res.status(400).json("falha ao tentar atualizar agendamento.");
       }
-      return res.status(204);
+      return res.status(204).json('pass');
     } catch (error) {
       throw res.status(400).json("Falha na requisição. Erro: " + error);
     }
@@ -132,7 +132,7 @@ export class AppointmentRoutes {
       if (!response) {
         return res.status(400).json("falha ao tentar apagar agendamento.");
       }
-      return res.status(204);
+      return res.status(204).json('pass');
     } catch (error) {
       throw res.status(400).json("Falha na requisição. Erro: " + error);
     }

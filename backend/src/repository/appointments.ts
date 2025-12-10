@@ -128,6 +128,7 @@ export class Repository {
         },
         data: data,
       });
+      return true;
     } catch (error) {
       throw error;
     }

@@ -14,7 +14,7 @@ router.post("/", AppointmentRoutes.create);
 
 router.put("/", AppointmentRoutes.update);
 
-router.put("/status", AppointmentRoutes.updateStatus);
+router.patch("/status", AppointmentRoutes.updateStatus);
 
 router.delete("/", AppointmentRoutes.delete);
 
