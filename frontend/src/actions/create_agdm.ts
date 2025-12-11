@@ -1,8 +1,8 @@
 "use server";
 
-import { CreateAgdm } from "./interfaces/create_agdm";
+import { Create } from "./interfaces/appointment";
 
-export async function createAgdm(data: CreateAgdm) {
+export async function createAgdm(data: Create) {
   const body = {
     nome: data.nome,
     servico: data.servico,
@@ -18,7 +18,7 @@ export async function createAgdm(data: CreateAgdm) {
     body: JSON.stringify(body),
   });
 
-  const response = await request.json();
+  if (request.status != 201) return false;
 
-  return response;
+  return true;
 }

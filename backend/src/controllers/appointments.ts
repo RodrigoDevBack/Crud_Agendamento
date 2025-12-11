@@ -22,7 +22,7 @@ export class AppointmentRoutes {
       if (!result) {
         return res.status(400).json("falha ao tentar criar agendamento.");
       }
-      return res.status(201).json(req.body);
+      return res.status(201).json(result);
     } catch (error) {
       throw res.status(400).json("Falha na requisição. Erro: " + error);
     }

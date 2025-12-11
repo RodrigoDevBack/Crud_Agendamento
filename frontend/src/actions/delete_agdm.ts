@@ -13,7 +13,7 @@ export async function deleteAgdm(data: string) {
     body: JSON.stringify(body),
   });
 
-  const response = await request.json();
+  if (request.status != 204) return false;
 
-  return response;
+  return true;
 }

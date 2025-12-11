@@ -6,14 +6,16 @@ export async function updateStatus(data: string) {
   };
 
   const request = await fetch("http://localhost:3001/agendamentos/status", {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
   });
 
+  if (request.status != 200) return false;
+
   const response = await request.json();
 
-  return response
+  return response;
 }

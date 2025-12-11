@@ -5,6 +5,8 @@ export async function getAgdmConcluded() {
     method: "GET",
   });
 
+  if (request.status != 200) return [];
+
   const response = await request.json();
 
   return response;

@@ -13,13 +13,13 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { FormEvent, useState } from "react";
 import { createAgdm } from "@/actions/create_agdm";
-import { CreateAgdm } from "../actions/interfaces/create_agdm";
 
 import { toast } from "sonner";
+import { Create } from "@/actions/interfaces/appointment";
 
 type Input = {
-  func: () => Promise<void>
-}
+  func: () => Promise<void>;
+};
 
 const CreateAgdmDialog = ({ func }: Input) => {
   const [hora, setHora] = useState("");
@@ -27,24 +27,43 @@ const CreateAgdmDialog = ({ func }: Input) => {
   const [nome, setNome] = useState("");
   const [servico, setServico] = useState("");
   const [data, setData] = useState("");
+  const [open, setOpen] = useState(false);
+  const hoje = new Date().toISOString().split("T");
+  const limite = new Date();
+  limite.setDate(limite.getDate() + 21);
+  const limit = limite.toISOString().split("T");
 
   const createAg = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const datesd: CreateAgdm = {
+    let horaForm = "0";
+    let minutoForm = "0";
+    if (hora.split("").length < 2) {
+      horaForm += hora;
+    } else {
+      horaForm = hora;
+    }
+    if (minuto.split("").length < 2) {
+      minutoForm += minuto;
+    } else {
+      minutoForm = minuto;
+    }
+    const datesd: Create = {
       nome: nome,
       servico: servico,
       data: data,
-      hora: hora + ":" + minuto,
+      hora: horaForm + ":" + minutoForm,
     };
     const request = await createAgdm(datesd);
-    toast.success('Agendamento criado com sucesso!')
-    setData('')
-    setNome('')
-    setHora('')
-    setMinuto('')
-    setServico('')
-    func()
-    return request
+    if (!request) return toast.error("A atualização falhou");
+    toast.success("Agendamento criado com sucesso!");
+    setData("");
+    setNome("");
+    setHora("");
+    setMinuto("");
+    setServico("");
+    func();
+    setOpen(false);
+    return request;
   };
 
   // Permite apenas números
@@ -67,9 +86,9 @@ const CreateAgdmDialog = ({ func }: Input) => {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="cursor-pointer md:text-lg text-xs">
+        <Button className="cursor-pointer md:text-lg text-xs transition-transform duration-300 ease-in-out hover:scale-107">
           <Plus />
           Cadastrar Novo Agendamento
         </Button>
@@ -113,6 +132,8 @@ const CreateAgdmDialog = ({ func }: Input) => {
             value={data}
             onInput={(e) => setData(e.currentTarget.value)}
             type="date"
+            min={hoje[0]}
+            max={limit[0]}
             id="data"
             required
           />
