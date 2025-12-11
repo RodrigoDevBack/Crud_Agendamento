@@ -1,140 +1,107 @@
-------------------------------------------------------------
+---
+
 # App de Agendamentos
 
-### O projeto consiste em um aplicativo simples de agendamento integrado a uma API própria, permitindo criar, listar e excluir agendamentos.
+Aplicativo simples para gerenciar agendamentos com uma API própria (CRUD): criar, listar, editar e excluir agendamentos.
 
-------------------------------------------------------------
+---
 
-## Tecnologias Utilizadas
+## Tecnologias
 
-### Backend
+- Backend: Node.js, Express, TypeScript, Prisma, SQLite
+- Frontend: Next.js (App Router), React, TypeScript
 
-- Node.js
+---
 
-- Express
+## Funcionalidades
 
-- Banco de Dados SQLite
+- Criar agendamento (POST)
+- Listar todos os agendamentos (GET)
+- Atualizar status (PATCH)
+- Excluir agendamento (DELETE)
+- Persistência com SQLite através do Prisma
 
-- Prisma
+---
 
-- Node + Nodemon
+**Quick start (desenvolvimento)**
 
-### Frontend
+1. Backend
 
-- Next.js
-
-------------------------------------------------------------
-
-## Funcionalidades Implementadas
-
-### Backend
-
-- POST /agendamentos – cria um agendamento
-
-- GET /agendamentos – lista todos
-
-- DELETE /agendamentos/:id – remove um agendamento
-
-- Conexão com banco de dados
-
-- Tratamento básico de erros
-
-### Frontend
-
-- Tela de listagem de agendamentos
-
-- Tela/formulário para criar novo agendamento
-
-- Opção de excluir
-
-- Consumo da API desenvolvida
-
-------------------------------------------------------------
-
-## 🛠 Como rodar o projeto
-
-### Backend:
-
-`cd backend`
-
-`npm install`
-
-`npm run dev`
-
-### Frontend:
-
-`cd frontendnpm install`
-
-`npm start`
-
-`React Native:`
-
-`npx expo start`
-
-------------------------------------------------------------
-
-## Endpoints da API
-
-`POST /agendamentos – Criar agendamento`
-
-`GET /agendamentos – Listar todos`
-
-`DELETE /agendamentos/:id – Excluir agendamento`
-
-------------------------------------------------------------
-
-## Estrutura do Projeto
-
-```
-/TESTE-TECNICO-ESTAGIARIO-DEV-FULL-STACK--MOBILE-WEB-
-├── /backend
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   └── server.ts
-│   ├── prisma/schema.prisma
-│   ├── package.json
-│   └── tsconfig.json
-│
-└── /frontend
-    ├── src/
-    │   ├── components/
-    │   └── app/
-    │       └── page.tsx
-    ├── next.config.js
-    └── package.json
-
+```bash
+cd backend
+npm install
+npm run dev
 ```
 
-------------------------------------------------------------
+O backend por padrão roda em `http://localhost:3001`.
 
-## 🖼 Prints / Demonstração
+2. Frontend
 
-`Incluir links ou imagens no GitHub.`
-
-------------------------------------------------------------
-
-## Extras implementados
-
-```
-- Deploy
-- Componentização
-- UI melhorada
-- Dark Mode
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-------------------------------------------------------------
+O frontend usa o Next.js e por padrão roda em `http://localhost:3000`.
 
-## Observações Finais
-`Espaço para o candidato comentar sobre dificuldades, aprendizados e melhorias.`
+Se preferir configurar outra URL do backend, defina a variável de ambiente no frontend:
 
-------------------------------------------------------------
+```bash
+# no .env.local do frontend
+NEXT_PUBLIC_BACKEND_URL=http://localhost:3001
+```
 
-## Autor(a)
+---
 
-### Rodrigo Moraes
+## API (rotas principais)
 
-### LinkedIn: https://www.linkedin.com/in/rodrigo-moraes-7a65232b7/
+- GET /api/agendamentos — lista todos os agendamentos (proxy para o backend)
+- GET /api/agendamentos/concluded — lista agendamentos concluídos
+- GET /api/agendamentos/not_concluded — lista agendamentos não concluídos
+- POST /api/agendamentos — cria um agendamento
+- PATCH /api/agendamentos — atualiza status de um agendamento
+- DELETE /api/agendamentos — remove um agendamento
 
-### GitHub: https://github.com/RodrigoDevBack
+Exemplo rápido com curl:
+
+```bash
+# Listar todos
+curl http://localhost:3000/api/agendamentos
+
+# Criar (JSON)
+curl -X POST http://localhost:3000/api/agendamentos \
+    -H "Content-Type: application/json" \
+    -d '{"nome":"João","servico":"Corte","data":"2025-12-10","hora":"14:00"}'
+```
+
+Observação: o frontend está configurado para chamar rotas sob `/api/*` (Next.js). Essas rotas fazem proxy para o backend (por exemplo `http://localhost:3001`).
+
+---
+
+## Estrutura do projeto (resumido)
+
+```
+Crud_Agendamento/
+├─ backend/           # API Express + Prisma
+├─ frontend/          # Next.js (app router)
+└─ README.md
+```
+
+---
+
+## Desenvolvimento / Observações
+
+- Correções importantes realizadas: o frontend agora consome as rotas locais ` /api/agendamentos` do Next.js, que fazem requisições ao backend para evitar problemas de CORS e facilitar deploy.
+- Para rodar em produção, ajuste as variáveis de ambiente `NEXT_PUBLIC_BACKEND_URL` (frontend) e a configuração do backend conforme necessário.
+
+---
+
+## Contato
+
+**Autor:** Rodrigo Moraes
+
+- LinkedIn: https://www.linkedin.com/in/rodrigo-moraes-7a65232b7/
+- GitHub: https://github.com/RodrigoDevBack
+
+---
